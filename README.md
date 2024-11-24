@@ -1,6 +1,6 @@
 
 # Fuzzy Game Project 🎮
-
+![img.png](img.png)
 ## Descripción 📖
 **Fuzzy Game** es una aplicación basada en lógica difusa que calcula la **dificultad del juego** y la **frecuencia de eventos difíciles** utilizando un sistema de inferencia difusa. Los usuarios pueden ingresar valores relacionados con el tiempo de reacción, el desempeño del jugador y el tiempo por zona jugada, y recibir resultados en tiempo real a través de una interfaz gráfica intuitiva y atractiva.
 
