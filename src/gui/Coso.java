@@ -54,7 +54,7 @@ public class Coso {
         // Configuración de las etiquetas e inputs
         Font inputFont = new Font("FiraCode Nerd Font", Font.PLAIN, 14);
 
-        JLabel label1 = new JLabel("Tiempo_reaccion en segundos (0, 0.5):");
+        JLabel label1 = new JLabel("Tiempo_reaccion en segundos (0.5, 5):");
         label1.setForeground(Color.WHITE);
         textField1 = createPaddedTextField(inputFont, "Tiempo de reacción");
 
@@ -179,8 +179,8 @@ public class Coso {
             double tiempoZona = Double.parseDouble(textField3.getText());
 
             // Validación de rangos
-            if (tiempoReaccion < 0 || tiempoReaccion > 0.5) {
-                throw new IllegalArgumentException("Tiempo de reacción debe estar entre 0 y 0.5");
+            if (tiempoReaccion < 0.5 || tiempoReaccion > 5) {
+                throw new IllegalArgumentException("Tiempo de reacción debe estar entre 0.5 y 5");
             }
             if (desempenoJugador < 0 || desempenoJugador > 100) {
                 throw new IllegalArgumentException("Desempeño del jugador debe estar entre 0 y 100");
