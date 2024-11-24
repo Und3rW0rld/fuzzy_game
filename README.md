@@ -70,7 +70,7 @@ cd fuzzy_game
 ## Uso 📋
 
 1. Ingresa los valores en los campos correspondientes:
-   - **Tiempo de reacción**: Entre 0 y 0.5.
+   - **Tiempo de reacción**: Entre 0.5 y 5.
    - **Desempeño del jugador**: Entre 0 y 100.
    - **Tiempo por zona**: Entre 0 y 10.
 2. Haz clic en el botón **Calcular**.
@@ -81,7 +81,7 @@ cd fuzzy_game
 ### Ejemplo de Entradas y Salidas
 | Entrada                  | Resultado                                |
 |--------------------------|------------------------------------------|
-| Tiempo de reacción: 0.3  | Dificultad: `45.67`                     |
+| Tiempo de reacción: 0.6  | Dificultad: `45.67`                     |
 | Desempeño del jugador: 80| Frecuencia de eventos difíciles: `4.89` |
 | Tiempo por zona: 5       |                                          |
 
