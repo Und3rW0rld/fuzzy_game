@@ -1,0 +1,93 @@
+FUNCTION_BLOCK game	// Definicion de bloque
+
+// El unico tipo de variable soportada es REAL
+
+// Definicion de las variables de entrada
+VAR_INPUT
+        tiempo_reaccion : REAL; RANGE := (0.5 .. 5);
+        desempeno_jugador : REAL; RANGE := (0 .. 100);
+        tiempo_zona : REAL; RANGE := (0 .. 10);
+END_VAR
+
+// Definicion de las variables de salida
+VAR_OUTPUT
+        dificultad : REAL; RANGE := (0 .. 100);
+        frecuencia_eventos_dificiles : REAL; RANGE := (0 .. 80);
+END_VAR
+
+// Fuzzificacion de la variable de entrada 'tiempo_reaccion'
+FUZZIFY tiempo_reaccion
+        TERM muy_rapido := trian 0.5 0.5 1;
+        TERM rapido := trian 0.8 1.4 2;
+        TERM medio := trian 1.5 2.5 3.5;
+        TERM lento := trian 3 5 5;
+END_FUZZIFY
+
+// Fuzzificacion de la variable de entrada 'desempeno_jugador'
+FUZZIFY desempeno_jugador
+        TERM muy_bajo := trian 0 0 20;
+        TERM bajo := trian 10 25 40;
+        TERM medio := trape 30 45 55 70;
+        TERM alto := trape 60 80 100 100;
+END_FUZZIFY
+
+// Fuzzificacion de la variable de entrada 'tiempo_zona'
+FUZZIFY tiempo_zona
+        TERM muy_bajo := trian 0 0 2;
+        TERM bajo := trian 1 2.5 4;
+        TERM medio := trape 3 4 5 7;
+        TERM alto := trape 6 8.5 10 10;
+END_FUZZIFY
+
+// Variable de salida 'dificultad'
+DEFUZZIFY dificultad
+       TERM facil := gauss 0 10.48;
+       TERM normal := gauss 40 7.857;
+       TERM dificil := gauss 65 6.37;
+       TERM experto := gauss 100 10.62;
+
+
+       METHOD : COG;		// Usa el metodo de 'Centro de Gravedad'
+       DEFAULT := 0;		// Valor por defecto si ninguna regla activa el defuzzificador
+END_DEFUZZIFY
+
+// Defuzzificacion de la variable de salida 'frecuencia_eventos_dificiles'
+DEFUZZIFY frecuencia_eventos_dificiles
+        TERM muy_poco_frecuente := trian 0 0 15;
+        TERM poco_frecuente := trian 5 16 27;
+        TERM frecuente := trape 20 35 44 60;
+        TERM muy_frecuente := trian 47 80 80;
+
+        METHOD : COG;		// Usa el metodo de 'Centro de Gravedad'
+        DEFAULT := 0;		// Valor por defecto si ninguna regla activa el defuzzificador
+END_DEFUZZIFY
+
+// Reglas de inferencia
+RULEBLOCK No1
+        AND : MIN;	// Usa el 'min' para el 'AND' y por defecto el 'max' para el 'OR' (operador difuso).
+        ACT : MIN;	// Usa el metodo 'min' para la activacion/implicacion (trunca)
+        ACCU : MAX;	// Usa el 'max' para la acumulacion/agregacion
+
+        RULE 1 : IF (tiempo_reaccion IS lento) THEN dificultad IS facil, frecuencia_eventos_dificiles IS muy_poco_frecuente;
+        RULE 2 : IF (desempeno_jugador IS muy_bajo) THEN dificultad IS facil, frecuencia_eventos_dificiles IS muy_poco_frecuente;
+        RULE 3 : IF (tiempo_zona IS alto) THEN dificultad IS facil, frecuencia_eventos_dificiles IS muy_poco_frecuente;
+        RULE 4 : IF (tiempo_reaccion IS medio) THEN dificultad IS normal, frecuencia_eventos_dificiles IS poco_frecuente;
+        RULE 5 : IF (desempeno_jugador IS bajo) THEN dificultad IS normal, frecuencia_eventos_dificiles IS poco_frecuente;
+        RULE 6 : IF (tiempo_zona IS medio) THEN dificultad IS normal, frecuencia_eventos_dificiles IS poco_frecuente;
+        RULE 7 : IF (tiempo_reaccion IS rapido) THEN dificultad IS dificil, frecuencia_eventos_dificiles IS frecuente;
+        RULE 8 : IF (desempeno_jugador IS medio) THEN dificultad IS dificil, frecuencia_eventos_dificiles IS frecuente;
+        RULE 9 : IF (tiempo_zona IS bajo) THEN dificultad IS dificil, frecuencia_eventos_dificiles IS frecuente;
+        RULE 10 : IF (tiempo_reaccion IS muy_rapido) THEN dificultad IS experto, frecuencia_eventos_dificiles IS muy_frecuente;
+        RULE 11 : IF (desempeno_jugador IS alto) THEN dificultad IS experto, frecuencia_eventos_dificiles IS muy_frecuente;
+        RULE 12 : IF (tiempo_zona IS muy_bajo) THEN dificultad IS experto, frecuencia_eventos_dificiles IS muy_frecuente;
+        RULE 13 : IF (desempeno_jugador IS medio) AND (tiempo_zona IS alto) THEN dificultad IS dificil, frecuencia_eventos_dificiles IS frecuente;
+        RULE 14 : IF (desempeno_jugador IS alto) AND (tiempo_zona IS alto) THEN dificultad IS experto, frecuencia_eventos_dificiles IS muy_frecuente;
+        RULE 15 : IF (desempeno_jugador IS bajo) AND (tiempo_zona IS muy_bajo) THEN dificultad IS normal, frecuencia_eventos_dificiles IS frecuente;
+        RULE 16 : IF (desempeno_jugador IS muy_bajo) AND (tiempo_zona IS muy_bajo) THEN dificultad IS facil, frecuencia_eventos_dificiles IS frecuente;
+
+
+
+//      RULE N : IF (var1 IS a) AND ((var2 IS b) AND ((var3 IS c) AND (var4 IS d))) THEN salida1 IS x, salida2 IS y;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
