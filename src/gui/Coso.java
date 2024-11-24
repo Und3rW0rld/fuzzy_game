@@ -54,7 +54,7 @@ public class Coso {
         // Configuración de las etiquetas e inputs
         Font inputFont = new Font("FiraCode Nerd Font", Font.PLAIN, 14);
 
-        JLabel label1 = new JLabel("Tiempo_reaccion (0, 0.5):");
+        JLabel label1 = new JLabel("Tiempo_reaccion en segundos (0, 0.5):");
         label1.setForeground(Color.WHITE);
         textField1 = createPaddedTextField(inputFont, "Tiempo de reacción");
 
@@ -62,7 +62,7 @@ public class Coso {
         label2.setForeground(Color.WHITE);
         textField2 = createPaddedTextField(inputFont, "Desempeño del jugador");
 
-        JLabel label3 = new JLabel("Tiempo_zona (0, 10):");
+        JLabel label3 = new JLabel("Tiempo_zona en minutos (0, 10):");
         label3.setForeground(Color.WHITE);
         textField3 = createPaddedTextField(inputFont, "Tiempo por zona jugada");
 
