@@ -1,7 +1,7 @@
 package game_fis;
 
 import net.sourceforge.jFuzzyLogic.*;
-// import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
+import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
 
 /**
  * Clase para manejar el sistema difuso del juego utilizando jFuzzyLogic.
@@ -47,6 +47,9 @@ public final class Game_FIS {
         // Recupera los valores de las salidas
         double dificultad = fis.getVariable("dificultad").getLatestDefuzzifiedValue();
         double frecuenciaEventos = fis.getVariable("frecuencia_eventos_dificiles").getLatestDefuzzifiedValue();
+
+        // Muestra los gráficos de las variables de entrada y salida
+        JFuzzyChart.get().chart(fis.getFunctionBlock("game"));
 
         // Devuelve los resultados
         return new double[] { dificultad, frecuenciaEventos };
